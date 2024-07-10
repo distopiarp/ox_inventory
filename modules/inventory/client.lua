@@ -77,22 +77,20 @@ function Inventory.OpenTrunk(entity)
 end
 
 if shared.target then
-	exports.ox_target:addModel(Inventory.Dumpsters, {
-        icon = 'fas fa-dumpster',
-        label = locale('search_dumpster'),
-        onSelect = function(data) return Inventory.OpenDumpster(data.entity) end,
-        distance = 2
-	})
-
-    exports.ox_target:addGlobalVehicle({
-        icon = 'fas fa-truck-ramp-box',
-        label = locale('open_label', locale('storage')),
-        distance = 1.5,
-        canInteract = Inventory.CanAccessTrunk,
-        onSelect = function(data)
-            return Inventory.OpenTrunk(data.entity)
-        end
-    })
+	-- exports.interact:AddGlobalVehicleInteraction({
+	-- 	distance = 5.0,
+	-- 	interactDst = 1.5,
+	-- 	offset = vec3(0.0, 0.0, -0.7),
+	-- 	bone = 'boot',
+	-- 	id = 'interact:defaultTrunk',
+	-- 	options = {
+	-- 		name = 'interact:trunk',
+	-- 		label = 'Abrir Porta Malas',
+	-- 		action = function(entity)
+	-- 			Inventory.OpenTrunk(entity)
+	-- 		end,
+	-- 	}
+	-- })
 else
 	local dumpsters = table.create(0, #Inventory.Dumpsters)
 

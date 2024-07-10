@@ -68,16 +68,40 @@ return {
 		label = 'Dirty Money',
 	},
 
-	['burger'] = {
-		label = 'Burger',
-		weight = 220,
-		client = {
-			status = { hunger = 200000 },
-			anim = 'eating',
-			prop = 'burger',
-			usetime = 2500,
-			notification = 'You ate a delicious burger'
-		},
+	["burger"] = {
+		label = "Hamburguer",
+		weight = 500,
+		degrade = 1440,
+		stack = true,
+		close = true,
+		description = "Delicioso lanche rápido mas não muito saboroso.",
+	},
+
+	["pizza"] = {
+		label = "Pizza",
+		weight = 500,
+		degrade = 1440,
+		stack = true,
+		close = true,
+		description = "Pedaço de pizza de pepperoni.",
+	},
+
+	["hotdog"] = {
+		label = "Hot Dog",
+		weight = 500,
+		degrade = 1440,
+		stack = true,
+		close = true,
+		description = "Pão, salsicha e mostarda.",
+	},
+
+	["donut"] = {
+		label = "Donut",
+		weight = 300,
+		degrade = 1440,
+		stack = true,
+		close = true,
+		description = "A sobremesa preferida dos policiais.",
 	},
 
 	['sprunk'] = {
@@ -136,18 +160,22 @@ return {
 	['lockpick'] = {
 		label = 'Lockpick',
 		weight = 160,
+		degrade = 10080,
+		description = "Perfeito para abrir algumas fechaduras emperradas."
 	},
 
 	["phone"] = {
-		label = "Phone",
+		label = "Celular",
 		weight = 190,
 		stack = false,
 		consume = 0,
-
+		degrade = 30240
 	},
 
 	['money'] = {
-		label = 'Money',
+		label = 'Dinheiro',
+		description = 'Dinheiro vivo',
+		weight = 1,
 	},
 
 	['mustard'] = {
@@ -179,6 +207,7 @@ return {
 		label = 'Radio',
 		weight = 1000,
 		stack = false,
+		degrade = 4320,
 		allowArmed = true
 	},
 
@@ -204,11 +233,6 @@ return {
 		client = {
 			image = 'card_bank.png'
 		}
-	},
-
-	['scrapmetal'] = {
-		label = 'Scrap Metal',
-		weight = 80,
 	},
 
 	["heavyarmor"] = {
@@ -340,17 +364,6 @@ return {
 		description = "A diamond seems like the jackpot to me!",
 		client = {
 			image = "diamond.png",
-		}
-	},
-
-	["rubber"] = {
-		label = "Rubber",
-		weight = 100,
-		stack = true,
-		close = false,
-		description = "Rubber, I believe you can make your own rubber ducky with it :D",
-		client = {
-			image = "rubber.png",
 		}
 	},
 
@@ -596,17 +609,6 @@ return {
 		}
 	},
 
-	["aluminum"] = {
-		label = "Aluminium",
-		weight = 100,
-		stack = true,
-		close = false,
-		description = "Nice piece of metal that you can probably use for something",
-		client = {
-			image = "aluminum.png",
-		}
-	},
-
 	["kurkakola"] = {
 		label = "Cola",
 		weight = 500,
@@ -728,17 +730,6 @@ return {
 		}
 	},
 
-	["metalscrap"] = {
-		label = "Metal Scrap",
-		weight = 100,
-		stack = true,
-		close = false,
-		description = "You can probably make something nice out of this",
-		client = {
-			image = "metalscrap.png",
-		}
-	},
-
 	["screwdriverset"] = {
 		label = "Toolkit",
 		weight = 1000,
@@ -756,9 +747,6 @@ return {
 		stack = true,
 		close = true,
 		description = "Nice bread for your stomach",
-		client = {
-			image = "sandwich.png",
-		}
 	},
 
 	["diamond_ring"] = {
@@ -1058,28 +1046,6 @@ return {
 		}
 	},
 
-	["glass"] = {
-		label = "Glass",
-		weight = 100,
-		stack = true,
-		close = false,
-		description = "It is very fragile, watch out",
-		client = {
-			image = "glass.png",
-		}
-	},
-
-	["copper"] = {
-		label = "Copper",
-		weight = 100,
-		stack = true,
-		close = false,
-		description = "Nice piece of metal that you can probably use for something",
-		client = {
-			image = "copper.png",
-		}
-	},
-
 	["microwave"] = {
 		label = "Microwave",
 		weight = 46000,
@@ -1322,17 +1288,6 @@ return {
 		}
 	},
 
-	["plastic"] = {
-		label = "Plastic",
-		weight = 100,
-		stack = true,
-		close = false,
-		description = "RECYCLE! - Greta Thunberg 2019",
-		client = {
-			image = "plastic.png",
-		}
-	},
-
 	["beer"] = {
 		label = "Beer",
 		weight = 500,
@@ -1387,17 +1342,6 @@ return {
 		}
 	},
 
-	["laptop"] = {
-		label = "Laptop",
-		weight = 4000,
-		stack = true,
-		close = true,
-		description = "Expensive laptop",
-		client = {
-			image = "laptop.png",
-		}
-	},
-
 	["id_card"] = {
 		label = "ID Card",
 		weight = 0,
@@ -1417,6 +1361,109 @@ return {
 		description = "Its also known as black corals or thorn corals",
 		client = {
 			image = "antipatharia_coral.png",
+		}
+	},
+
+	["rolledcash"] = {
+		label = "Dinheiro Enrolado",
+		weight = 2,
+		stack = true,
+		description = "Pequena quantia de dinheiro enrolado",
+	},
+
+	["washedcash"] = {
+		label = "Dinheiro Molhado",
+		weight = 3,
+		stack = true,
+		description = 'Dinheiro limpo e pronto pra ser negociado',
+	},
+
+	["laptop"] = {
+		label = "Laptop",
+		weight = 500,
+		stack = false,
+		description = 'Organize suas empresas, seus negócios e algumas coisinhas mais.',
+		degrade = 30240
+	},
+
+	["drug_package"] = {
+		label = "Pacote de Drogas",
+		weight = 500,
+		stack = true,
+		description = '...',
+	},
+
+	["spray"] = {
+		label = "Spray",
+		weight = 500,
+		stack = true,
+		description = '...',
+	},
+
+	['blueprint'] = {
+		label = 'Blueprint',
+		description = 'Contém instruções para fabrição e montagem',
+		weight = 100,
+		stack = false,
+	},
+
+	["rubber"] = {
+		label = "Borracha",
+		weight = 10,
+		stack = true,
+		description = "Talvez você consiga fazer seu próprio patinho de borracha com isso!",
+	},
+
+	["circuitboard"] = {
+		label = "Circuito Eletrônico",
+		weight = 10,
+		stack = true,
+		description = "Pode ser usado para hackear o sistema... ou apenas para consertar sua torradeira.",
+	},
+
+	["plastic"] = {
+		label = "Plástico Reciclável",
+		weight = 10,
+		stack = true,
+		description = "Quem diria que plástico poderia ser tão versátil?",
+	},
+
+	["copper"] = {
+		label = "Tubo de Cobre",
+		weight = 10,
+		stack = true,
+		description = "Ótimo para conduzir eletricidade ou fazer aquele colar estilo anos 80.",
+	},
+
+	["aluminum"] = {
+		label = "Tubo de Alumínio",
+		weight = 10,
+		stack = true,
+		description = "Leve e brilhante, ideal para uma antena improvisada ou um sabre de luz caseiro.",
+	},
+
+	["glass"] = {
+		label = "Vidro Temperado",
+		weight = 10,
+		stack = true,
+		description = "Resistente e elegante, porque até o apocalipse merece uma boa vista.",
+	},
+
+	["scrapmetal"] = {
+		label = "Sobras de Metal",
+		weight = 10,
+		stack = true,
+		description = "Um monte de pedaços de metal, ou o início de sua obra-prima pós-apocalíptica.",
+	},
+
+	["metalscrap"] = {
+		label = "Metal Scrap",
+		weight = 100,
+		stack = true,
+		close = false,
+		description = "You can probably make something nice out of this",
+		client = {
+			image = "metalscrap.png",
 		}
 	},
 }

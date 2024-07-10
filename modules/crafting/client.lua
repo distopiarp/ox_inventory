@@ -93,6 +93,7 @@ local function createCraftingBench(id, data)
 		CraftingBenches[id] = data
 	end
 end
+exports('RegisterCraftStation', createCraftingBench)
 
 for id, data in pairs(lib.load('data.crafting')) do createCraftingBench(id, data) end
 

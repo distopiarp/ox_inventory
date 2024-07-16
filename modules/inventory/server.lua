@@ -1077,6 +1077,37 @@ end
 
 exports('SetMaxWeight', Inventory.SetMaxWeight)
 
+local function matchesExcludingDurability(meta1, meta2)
+    local durability1 = meta1.durability or 0
+    local durability2 = meta2.durability or 0
+    local degrade1 = meta1.degrade or 0
+    local degrade2 = meta2.degrade or 0
+    -- Check that durabilities are within 10% of each other
+    -- local averageDurability = (durability1 + durability2) / 2
+    local averageDurability =  ((degrade1 + degrade2) / 2)
+    local diff = math.abs(durability1 - durability2) * 0.2
+    print('durability1', durability1)
+    print('durability2', durability2)
+    print('diff', diff)
+    print('averageDurability for both items', averageDurability)
+    if diff > averageDurability then
+        return false
+    end
+
+    for k, v in pairs(meta1) do
+        if k ~= "durability" and (not meta2[k] or meta2[k] ~= v) then
+            return false
+        end
+    end
+    for k, v in pairs(meta2) do
+        if k ~= "durability" and (not meta1[k] or meta1[k] ~= v) then
+            return false
+        end
+    end
+
+    return true
+end
+
 ---@param inv inventory
 ---@param item table | string
 ---@param count number
@@ -1114,7 +1145,8 @@ function Inventory.AddItem(inv, item, count, metadata, slot, cb)
 		for i = 1, inv.slots do
 			local slotData = items[i]
 
-			if item.stack and slotData ~= nil and slotData.name == item.name and table.matches(slotData.metadata, slotMetadata) then
+			-- if item.stack and slotData ~= nil and slotData.name == item.name and table.matches(slotData.metadata, slotMetadata) then
+			if item.stack and slotData ~= nil and slotData.name == item.name and matchesExcludingDurability(slotData.metadata, slotMetadata) then	
 				toSlot = i
 				break
 			elseif not item.stack and not slotData then
@@ -1707,7 +1739,58 @@ lib.callback.register('ox_inventory:swapItems', function(source, data)
 				count = data.count,
 			}
 
-			if toData and ((toData.name ~= fromData.name) or not toData.stack or (not table.matches(toData.metadata, fromData.metadata))) then
+			if toData and toData.name == fromData.name and toData.stack and matchesExcludingDurability(toData.metadata, fromData.metadata) then
+				-- Stack items
+				toData.count += data.count
+				fromData.count -= data.count
+				local toSlotWeight = Inventory.SlotWeight(Items(toData.name), toData)
+				local totalWeight = toInventory.weight - toData.weight + toSlotWeight
+
+				-- Set the durability to the lower of the two
+				if toData.metadata.durability and fromData.metadata.durability then
+					toData.metadata.durability = math.min(toData.metadata.durability, fromData.metadata.durability)
+				end
+
+				if fromInventory.type == 'container' or sameInventory or totalWeight <= toInventory.maxWeight then
+					hookPayload.action = 'stack'
+
+					if not TriggerEventHooks('swapItems', hookPayload) then
+						toData.count -= data.count
+						fromData.count += data.count
+						return
+					end
+
+					local fromSlotWeight = Inventory.SlotWeight(Items(fromData.name), fromData)
+					toData.weight = toSlotWeight
+
+					if not sameInventory then
+						fromInventory.weight = fromInventory.weight - fromData.weight + fromSlotWeight
+						toInventory.weight = totalWeight
+
+						if container then
+							Inventory.ContainerWeight(containerItem, toInventory.type == 'container' and toInventory.weight or fromInventory.weight, playerInventory)
+						end
+
+						if fromOtherPlayer then
+							TriggerClientEvent('ox_inventory:itemNotify', fromInventory.id, { fromData, 'ui_removed', data.count })
+						elseif toOtherPlayer then
+							TriggerClientEvent('ox_inventory:itemNotify', toInventory.id, { toData, 'ui_added', data.count })
+						end
+
+						if server.loglevel > 0 then
+							lib.logger(playerInventory.owner, 'swapSlots', ('%sx %s transferred from "%s" to "%s"'):format(data.count, fromData.name, fromInventory.owner and fromInventory.label or fromInventory.id, toInventory.owner and toInventory.label or toInventory.id))
+						end
+					end
+
+					fromData.weight = fromSlotWeight
+				else
+					toData.count -= data.count
+					fromData.count += data.count
+					return false, 'cannot_carry'
+				end
+			-- this is new ^
+			-- if toData and ((toData.name ~= fromData.name) or not toData.stack or (not table.matches(toData.metadata, fromData.metadata))) then
+			elseif toData and ((toData.name ~= fromData.name) or not toData.stack or (not matchesExcludingDurability(toData.metadata, fromData.metadata))) then
 				-- Swap items
 				local toWeight = not sameInventory and (toInventory.weight - toData.weight + fromData.weight) or 0
 				local fromWeight = not sameInventory and (fromInventory.weight + toData.weight - fromData.weight) or 0
@@ -1752,7 +1835,8 @@ lib.callback.register('ox_inventory:swapItems', function(source, data)
 					toData, fromData = Inventory.SwapSlots(fromInventory, toInventory, data.fromSlot, data.toSlot)
 				end
 
-			elseif toData and toData.name == fromData.name and table.matches(toData.metadata, fromData.metadata) then
+			-- elseif toData and toData.name == fromData.name and table.matches(toData.metadata, fromData.metadata) then
+			elseif toData and toData.name == fromData.name and matchesExcludingDurability(toData.metadata, fromData.metadata) then
 				-- Stack items
 				toData.count += data.count
 				fromData.count -= data.count

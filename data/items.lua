@@ -647,7 +647,8 @@ return {
 		weight = 100,
 		stack = true,
 		close = true,
-		description = "If you've always wanted to build a robot you can maybe start here. Maybe you'll be the new Elon Musk?",
+		description =
+		"If you've always wanted to build a robot you can maybe start here. Maybe you'll be the new Elon Musk?",
 		client = {
 			image = "electronickit.png",
 		}
@@ -1466,4 +1467,116 @@ return {
 			image = "metalscrap.png",
 		}
 	},
+
+	['onion_seed'] = {
+		label = 'Semente de Cebola',
+		weight = 20,
+		stack = true,
+		close = true,
+		description = "Prepare os lenços!"
+	},
+
+	['pumpkin_seed'] = {
+		label = 'Semente de Abóbora',
+		weight = 30,
+		stack = true,
+		close = true,
+		description = "Futuro Halloween garantido."
+	},
+
+	['potato_seed'] = {
+		label = 'Semente de Batata',
+		weight = 25,
+		stack = true,
+		close = true,
+		description = "Versátil e nutritiva."
+	},
+
+	['lettuce_seed'] = {
+		label = 'Semente de Alface',
+		weight = 15,
+		stack = true,
+		close = true,
+		description = "Para uma salada fresca."
+	},
+
+	['tomato_seed'] = {
+		label = 'Semente de Tomate',
+		weight = 20,
+		stack = true,
+		close = true,
+		description = "Molho de pizza caseiro!"
+	},
+
+	['tobacco_seed'] = {
+		label = 'Semente de Tabaco',
+		weight = 35,
+		stack = true,
+		close = true,
+		description = "Para os momentos de relax."
+	},
+
+	['strawberry_seed'] = {
+		label = 'Semente de Morango',
+		weight = 15,
+		stack = true,
+		close = true,
+		description = "Doces e deliciosos."
+	},
+
+	['corn_seed'] = {
+		label = 'Semente de Milho',
+		weight = 25,
+		stack = true,
+		close = true,
+		description = "Pipoca garantida."
+	},
+
+	['watermelon_seed'] = {
+		label = 'Semente de Melancia',
+		weight = 40,
+		stack = true,
+		close = true,
+		description = "Refrescante no verão."
+	},
+
+	['carrot_seed'] = {
+		label = 'Semente de Cenoura',
+		weight = 25,
+		stack = true,
+		close = true,
+		description = "Boa para a visão."
+	},
+
+	['alkaline_bottle'] = {
+		label = 'Garrafa de Alcalino',
+		weight = 10,
+		stack = true,
+		close = true,
+		description = "Equilíbrio perfeito para suas plantas."
+	},
+
+	['acid_bottle'] = {
+		label = 'Garrafa de Ácido',
+		weight = 10,
+		stack = true,
+		close = true,
+		description = "Cuidado, manuseie com cautela!"
+	},
+
+	['insecticide'] = {
+		label = 'Inseticida',
+		weight = 15,
+		stack = true,
+		close = true,
+		description = "Proteção contra pragas indesejadas."
+	},
+
+	['wateringcan'] = {
+		label = 'Regador',
+		weight = 20,
+		stack = true,
+		close = true,
+		description = "Essencial para a hidratação das plantas."
+	}
 }
